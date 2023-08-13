@@ -1,6 +1,5 @@
 ﻿using CovidChart.API.Models;
 using CovidChart.API.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CovidChart.API.Controllers

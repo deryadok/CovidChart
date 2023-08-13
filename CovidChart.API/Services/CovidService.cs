@@ -27,7 +27,7 @@ namespace CovidChart.API.Services
         {
             await _context.Covids.AddAsync(covid);
             await _context.SaveChangesAsync();
-            await _hubContext.Clients.All.SendAsync("RecieveCovidList", GetCovidChartList());
+            await _hubContext.Clients.All.SendAsync("RecieveList", GetCovidChartList());
         }
 
         public List<CovidChartModel> GetCovidChartList()

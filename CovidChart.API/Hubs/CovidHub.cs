@@ -14,8 +14,7 @@ namespace CovidChart.API.Hubs
 
         public async Task GetCovidList()
         {
-
-            await Clients.All.SendAsync("ReceiveCovidList", _covidService.GetCovidChartList());
+            await Clients.All.SendAsync("RecieveList", _covidService.GetCovidChartList());
         }
     }
 }
