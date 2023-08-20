@@ -12,20 +12,17 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">CovidChart.Web</a>
+                <a class="navbar-brand" asp-area="" asp-page="/Index">İllere Göre Covid Grafiği</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
-                    </ul>
+                <div class="navbar-collapse collapse d-flex gap-2 justify-content-center">
+                    <button id="btnistanbul" class="btn btn-primary rounded-pill px-3" type="button">İstanbul</button>
+                    <button id="btnankara" class="btn btn-danger rounded-pill px-3" type="button">Ankara</button>
+                    <button id="btnizmir" class="btn btn-warning rounded-pill px-3" type="button">İzmir</button>
+                    <button id="btnantalya" class="btn btn-success rounded-pill px-3" type="button">Antalya</button>
+                    <button id="btnordu" class="btn btn-secondary rounded-pill px-3" type="button">Ordu</button>
                 </div>
             </div>
         </nav>
@@ -38,7 +35,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2023 - CovidChart.Web - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            &copy; 2023 - CovidChart.Web
         </div>
     </footer>
 

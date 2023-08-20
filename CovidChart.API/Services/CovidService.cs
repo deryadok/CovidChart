@@ -69,6 +69,10 @@ namespace CovidChart.API.Services
 
             _context.Database.CloseConnection();
 
+            /*SELECT CovidDate, ISNULL([1],0) AS [1], ISNULL([2],0) AS [2], ISNULL([3],0) AS [3], ISNULL([4],0) AS [4], ISNULL([5],0) AS [5] FROM
+(SELECT [City], [Count], CAST([CovidDate] AS DATE) AS CovidDate FROM Covids WHERE City = 1) AS Covid 
+PIVOT(SUM([Count]) FOR City IN ([1], [2], [3], [4], [5])) AS PivotT ORDER BY CovidDate*/
+
             return covidCharts;
         }
     }

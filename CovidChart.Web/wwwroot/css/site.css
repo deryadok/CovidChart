@@ -20,3 +20,7 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.btn-secondary, .btn-secondary:hover, .btn-secondary:active, .btn-secondary:visited {
+    background-color: #990099 !important;
+}
