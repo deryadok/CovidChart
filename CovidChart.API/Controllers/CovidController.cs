@@ -26,23 +26,25 @@ namespace CovidChart.API.Controllers
         [HttpGet]
         public IActionResult InitializeCovid()
         {
-            Random rnd = new Random();
-            Enumerable.Range(1, 10).ToList().ForEach(x =>
+            for (int i = 1; i <= 10; i++)
             {
-                foreach (CityEnum item in Enum.GetValues(typeof(CityEnum)))
+                Random rnd = new Random();
+                var newCovid = new Covid()
                 {
-                    var newCovid = new Covid()
-                    {
-                        City = item,
-                        Count = rnd.Next(100, 1000),
-                        CovidDate = DateTime.Now.AddDays(x),
-                    };
+                    City1 = rnd.Next(100, 1000),
+                    City2 = rnd.Next(100, 1000),
+                    City3 = rnd.Next(100, 1000),
+                    City4 = rnd.Next(100, 1000),
+                    City5 = rnd.Next(100, 1000),
 
-                    _service.SaveCovid(newCovid).Wait();
+                    CovidDate = DateTime.Now.AddDays(i),
+                };
 
-                    Thread.Sleep(1000);
-                }
-            });
+                _service.SaveCovid(newCovid).Wait();
+
+                Thread.Sleep(1000);
+
+            }
 
             return Ok("Covid19 dataları veritabanına kaydedildi.");
         }

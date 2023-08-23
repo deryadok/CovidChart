@@ -27,53 +27,59 @@ namespace CovidChart.API.Services
         {
             await _context.Covids.AddAsync(covid);
             await _context.SaveChangesAsync();
-            await _hubContext.Clients.All.SendAsync("RecieveList", GetCovidChartList());
+            //await _hubContext.Clients.All.SendAsync("RecieveList", GetCovidChartList());
+            await _hubContext.Clients.Groups("all").SendAsync("RecieveList", GetCovidChartList());
+            await _hubContext.Clients.Groups("istanbul").SendAsync("RecieveList", GetCovidChartListByCity(1));
+            await _hubContext.Clients.Groups("ankara").SendAsync("RecieveList", GetCovidChartListByCity(2));
+            await _hubContext.Clients.Groups("izmir").SendAsync("RecieveList", GetCovidChartListByCity(3));
+            await _hubContext.Clients.Groups("antalya").SendAsync("RecieveList", GetCovidChartListByCity(4));
+            await _hubContext.Clients.Groups("ordu").SendAsync("RecieveList", GetCovidChartListByCity(5));
         }
 
         public List<CovidChartModel> GetCovidChartList()
         {
-            List<CovidChartModel> covidCharts = new List<CovidChartModel>();
+            var covidData = _context.Covids.ToList();
+            List<CovidChartModel> chartModel = new List<CovidChartModel>();
 
-            using(var command = _context.Database.GetDbConnection().CreateCommand())
+            foreach (var data in covidData)
             {
-                command.CommandText = "SELECT CovidDate, [1], [2], [3], [4], [5] FROM\r\n(SELECT [City], [Count], CAST([CovidDate] AS DATE) AS CovidDate FROM Covids) AS CovidT\r\nPIVOT\r\n(SUM([Count]) FOR City IN ([1], [2], [3], [4], [5])) AS PivotT\r\nORDER BY CovidDate";
-
-                command.CommandType = CommandType.Text;
-
-                _context.Database.OpenConnection();
-
-                using (var reader = command.ExecuteReader())
+                var modifiedData = new CovidChartModel
                 {
-                    while (reader.Read())
-                    {
-                        CovidChartModel model = new CovidChartModel();
+                    CovidDate = data.CovidDate.ToShortDateString(),
+                    City1 = data.City1,
+                    City2 = data.City2,
+                    City3 = data.City3,
+                    City4 = data.City4,
+                    City5 = data.City5
+                };
 
-                        model.CovidDate = reader.GetDateTime(0).ToShortDateString();
-
-                        Enumerable.Range(1, 5).ToList().ForEach(x =>
-                        {
-                            if (DBNull.Value.Equals(reader[x]))
-                            {
-                                model.Counts.Add(0);
-                            }
-                            else
-                            {
-                                model.Counts.Add(reader.GetInt32(x));
-                            }
-                        });
-
-                        covidCharts.Add(model);
-                    }
-                }
+                chartModel.Add(modifiedData);
             }
 
-            _context.Database.CloseConnection();
+            return chartModel;
+        }
 
-            /*SELECT CovidDate, ISNULL([1],0) AS [1], ISNULL([2],0) AS [2], ISNULL([3],0) AS [3], ISNULL([4],0) AS [4], ISNULL([5],0) AS [5] FROM
-(SELECT [City], [Count], CAST([CovidDate] AS DATE) AS CovidDate FROM Covids WHERE City = 1) AS Covid 
-PIVOT(SUM([Count]) FOR City IN ([1], [2], [3], [4], [5])) AS PivotT ORDER BY CovidDate*/
+        public List<CovidChartModel> GetCovidChartListByCity(byte city)
+        {
+            List<Covid> covidData = _context.Covids.ToList();
+            List<CovidChartModel> chartModel = new List<CovidChartModel>();
 
-            return covidCharts;
+            foreach (var data in covidData)
+            {
+                var modifiedData = new CovidChartModel
+                {
+                    CovidDate = data.CovidDate.ToShortDateString(),
+                    City1 = city == 1 ? data.City1 : 0,
+                    City2 = city == 2 ? data.City2 : 0,
+                    City3 = city == 3 ? data.City3 : 0,
+                    City4 = city == 4 ? data.City4 : 0,
+                    City5 = city == 5 ? data.City5 : 0
+                };
+
+                chartModel.Add(modifiedData);
+            }
+
+            return chartModel;
         }
     }
 }

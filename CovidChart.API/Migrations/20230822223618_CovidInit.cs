@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CovidChart.API.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class CovidInit : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,8 +17,11 @@ namespace CovidChart.API.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    City = table.Column<int>(type: "int", nullable: false),
-                    Count = table.Column<int>(type: "int", nullable: false),
+                    City1 = table.Column<int>(type: "int", nullable: false),
+                    City2 = table.Column<int>(type: "int", nullable: false),
+                    City3 = table.Column<int>(type: "int", nullable: false),
+                    City4 = table.Column<int>(type: "int", nullable: false),
+                    City5 = table.Column<int>(type: "int", nullable: false),
                     CovidDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>

@@ -12,20 +12,65 @@
         $(document).ready(() => {
 
             var connection = new signalR.HubConnectionBuilder().configureLogging(signalR.LogLevel.Debug).withUrl("https://localhost:7133/CovidHub").build();
-            var covidChartList = new Array();
-            covidChartList.push(["Tarih", "İstanbul", "Ankara", "İzmir", "Antalya", "Ordu"]);
+            var covidChartList = [
+                ["Tarih", "İstanbul", "Ankara", "İzmir", "Antalya", "Ordu"]
+            ];
+
+            let activeGroup = "all";
 
             connection.start().then(() => {
-                connection.invoke("GetCovidList");
+                connection.invoke("AddCityGroup", activeGroup);
+                connection.invoke("GetCovidList", activeGroup);
             }).catch((err) => {
                 console.log(err);
+            });
+
+            function joinGroup(groupName) {
+                if (activeGroup) {
+                    connection.invoke("RemoveFromCityGroup", activeGroup);
+                }
+
+                connection.invoke("AddCityGroup", groupName);
+                activeGroup = groupName;
+                if (groupName != "all")
+                    connection.invoke("GetCityCovidList", groupName).catch((err) => {
+                        console.log(err);
+                    });
+                else
+                    connection.invoke("GetCovidList", groupName);
+            }
+
+            $("#btnistanbul").click(() => {
+                joinGroup("istanbul");
+            });
+
+            $("#btnankara").click(() => {
+                joinGroup("ankara");
+            });
+
+            $("#btnizmir").click(() => {
+                joinGroup("izmir");
+            });
+
+            $("#btnantalya").click(() => {
+                joinGroup("antalya");
+
+            });
+
+            $("#btnordu").click(() => {
+                joinGroup("ordu");
+            });
+
+
+            $("#btnAll").click(() => {
+                joinGroup("all");
             });
 
             connection.on("RecieveList", (covidList) => {
                 covidChartList = covidChartList.slice(0, 1);
 
                 covidList.forEach((item) => {
-                    covidChartList.push([item.covidDate, item.counts[0], item.counts[1], item.counts[2], item.counts[3], item.counts[4]]);
+                    covidChartList.push([item.covidDate, item.city1, item.city2, item.city3, item.city4, item.city5]);
                 });
 
                 google.charts.load('current', { 'packages': ['corechart'] });

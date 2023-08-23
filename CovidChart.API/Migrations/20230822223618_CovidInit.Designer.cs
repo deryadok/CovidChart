@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CovidChart.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230810181858_init")]
-    partial class init
+    [Migration("20230822223618_CovidInit")]
+    partial class CovidInit
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,10 +33,19 @@ namespace CovidChart.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("City")
+                    b.Property<int>("City1")
                         .HasColumnType("int");
 
-                    b.Property<int>("Count")
+                    b.Property<int>("City2")
+                        .HasColumnType("int");
+
+                    b.Property<int>("City3")
+                        .HasColumnType("int");
+
+                    b.Property<int>("City4")
+                        .HasColumnType("int");
+
+                    b.Property<int>("City5")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CovidDate")

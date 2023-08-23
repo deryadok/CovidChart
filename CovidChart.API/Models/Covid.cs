@@ -12,8 +12,11 @@
     public class Covid
     {
         public int Id { get; set; }
-        public CityEnum City { get; set; }
-        public int Count { get; set; }
+        public int City1 { get; set; }
+        public int City2 { get; set; }
+        public int City3 { get; set; }
+        public int City4 { get; set; }
+        public int City5 { get; set; }
         public DateTime CovidDate { get; set; }
     }
 }
