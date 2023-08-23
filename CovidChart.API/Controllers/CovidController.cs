@@ -26,7 +26,7 @@ namespace CovidChart.API.Controllers
         [HttpGet]
         public IActionResult InitializeCovid()
         {
-            for (int i = 1; i <= 10; i++)
+            for (int i = 1; i <= 50; i++)
             {
                 Random rnd = new Random();
                 var newCovid = new Covid()
@@ -42,7 +42,7 @@ namespace CovidChart.API.Controllers
 
                 _service.SaveCovid(newCovid).Wait();
 
-                Thread.Sleep(1000);
+                Thread.Sleep(3000);
 
             }
 

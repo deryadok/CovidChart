@@ -10,7 +10,7 @@
 
     <script type="text/javascript">
         $(document).ready(() => {
-
+            debugger;
             var connection = new signalR.HubConnectionBuilder().configureLogging(signalR.LogLevel.Debug).withUrl("https://localhost:7133/CovidHub").build();
             var covidChartList = [
                 ["Tarih", "İstanbul", "Ankara", "İzmir", "Antalya", "Ordu"]
@@ -20,7 +20,7 @@
 
             connection.start().then(() => {
                 connection.invoke("AddCityGroup", activeGroup);
-                connection.invoke("GetCovidList", activeGroup);
+                connection.invoke("GetCovidList");
             }).catch((err) => {
                 console.log(err);
             });
@@ -37,7 +37,7 @@
                         console.log(err);
                     });
                 else
-                    connection.invoke("GetCovidList", groupName);
+                    connection.invoke("GetCovidList");
             }
 
             $("#btnistanbul").click(() => {
